@@ -1,7 +1,7 @@
 var createError = require('http-errors');
 
-const db = require('./db/queries')
-
+const db = require('./db/users/userQueries')
+var cors = require('cors')
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser')
@@ -9,11 +9,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/getUsers');
-var getUserRouter = require('./routes/getUserById');
-var deleteUserRouter = require('./routes/deleteUser')
-var createUserRouter = require('./routes/createUser')
-var updateUserRouter = require('./routes/updateUser')
+var usersRouter = require('./routes/userRoutes/getUsers');
+var getUserRouter = require('./routes/userRoutes/getUserById');
+var deleteUserRouter = require('./routes/userRoutes/deleteUser')
+var createUserRouter = require('./routes/userRoutes/createUser')
+var updateUserRouter = require('./routes/userRoutes/updateUser')
 
 
 var app = express();
@@ -22,6 +22,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(cors())  //cross origin resource sharing required to bypass browser orgin checking.  *need more info*
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

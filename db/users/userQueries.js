@@ -1,17 +1,14 @@
-const Pool = require("pg").Pool;
-const pool = new Pool({
-    user: "jason",
-    host: "localhost",
-    database: "famazon",
-    password: '12345',
-    port: 5432,
-});
+const pool =  require('../index')
+
+
+
 
 const getUsers = (request, response) => {
-    pool.query("SELECT * FROM users ORDER BY id ASC limit 20", (error, results) => {
+    pool.query("SELECT first_name, last_name, email FROM users ORDER BY id ASC limit 20", (error, results) => {
         if (error) {
             throw error;
         }
+        
         response.status(200).json(results.rows);
     });
 };
@@ -20,8 +17,8 @@ const getUserById = (request, response) => {
     
     const id = parseInt(request.params.id);
 
-    pool.query("SELECT * FROM users WHERE id = $1", [id], (error, results) => {
-        console.log(results.rows)
+    pool.query("SELECT first_name, last_name, email FROM users WHERE id = $1", [id], (error, results) => {
+        
         //results.rows is array of found objects
         //checks for empty array
         if (results.rows.length === 0){
@@ -38,7 +35,7 @@ const createUser = (request, response) => {
     const {first_name, last_name, email, gender} = request.body;
 
     pool.query(
-        "INSERT INTO users (first_name, last_name, email, gender) VALUES ($1, $2, $3, $4)",
+        "INSERT INTO users (first_name, last_name, email, pwd) VALUES ($1, $2, $3, $4)",
         [ first_name, last_name, email, gender],
         (error, results) => {
             console.log(results)
@@ -54,7 +51,7 @@ const updateUser = (request, response) => {
     const { name, email } = request.body;
 
     pool.query(
-        "UPDATE users SET name = $1, email = $2 WHERE id = $3",
+        "UPDATE users SET first_name = $1, last_name = $2 email = $3 WHERE id = $4",
         [name, email, id],
         (error, results) => {
             if (error) {

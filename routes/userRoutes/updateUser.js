@@ -1,5 +1,5 @@
 var express = require('express');
-const db = require('../db/queries')
+const db = require('../../db/users/userQueries')
 var router = express.Router();
 
 /* PATCH selected user listing. */
