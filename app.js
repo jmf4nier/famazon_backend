@@ -15,6 +15,8 @@ var deleteUserRouter = require('./routes/userRoutes/deleteUser')
 var createUserRouter = require('./routes/userRoutes/createUser')
 var updateUserRouter = require('./routes/userRoutes/updateUser')
 
+var itemsRouter = require('./routes/itemRoutes/getItems')
+var getItemRouter = require('./routes/itemRoutes/getItemById')
 
 var app = express();
 
@@ -35,13 +37,16 @@ app.use(
 )
 app.use(express.static(path.join(__dirname, 'public')));
 
+//user routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/users', getUserRouter);
-app.use('/users', deleteUserRouter)
-app.use('/users', updateUserRouter)
-app.use('/users', createUserRouter)
-
+app.use('/user', getUserRouter);
+app.use('/user', deleteUserRouter)
+app.use('/user', updateUserRouter)
+app.use('/user', createUserRouter)
+//item routes
+app.use('/items', itemsRouter)
+app.use('/items', getItemRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,6 +3,6 @@ const db = require('../../db/users/userQueries')
 var router = express.Router();
 
 /* PATCH selected user listing. */
-router.patch('/', db.updateUser)
+router.patch('/:user_id', db.updateUser)
 
 module.exports = router;

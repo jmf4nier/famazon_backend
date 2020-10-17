@@ -3,6 +3,6 @@ const db = require('../../db/users/userQueries')
 var router = express.Router();
 
 /* DELETE selected user. */
-router.delete('/:id', db.deleteUser)
+router.delete('/:user_id', db.deleteUser)
 
 module.exports = router;
