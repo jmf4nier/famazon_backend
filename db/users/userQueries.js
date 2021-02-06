@@ -18,7 +18,7 @@ const getUserById = (request, response) => {
   const user_id = parseInt(request.params.user_id)
 
   pool.query(
-    'SELECT user_id, first_name, last_name, email FROM users WHERE user_id = $1',
+    'SELECT user_id, first_name, last_name, date_of_birth, email FROM users WHERE user_id = $1',
     [user_id],
     (error, results) => {
       //results.rows is array of found objects
@@ -59,6 +59,7 @@ const updateUser = (request, response) => {
   //checks for existing user first, then modifies
 
   pool.query(
+    //read comments below!!!!
     'SELECT first_name, last_name, email FROM users WHERE user_id = $1',
     [user_id],
     (error, results) => {
