@@ -1,4 +1,5 @@
 const pool = require('../index')
+const format = require('pg-format')
 
 const getUsers = (request, response) => {
   pool.query(
@@ -54,8 +55,12 @@ const createUser = (request, response) => {
 }
 const updateUser = (request, response) => {
   const user_id = parseInt(request.params.user_id)
+  
   const { first_name, last_name, email, date_of_birth, pswd } = request.body
-
+  
+ 
+  
+  
   //checks for existing user first, then modifies
 
   pool.query(
@@ -71,15 +76,18 @@ const updateUser = (request, response) => {
       if (error) {
         return response.status(400).send(error)
       }
-
+      let sql = format('UPDATE users SET first_name = %L, last_name = %L, email = %L WHERE user_id = %L', first_name, last_name, email, user_id)
+      console.log(sql)
+      //using pg_format for this particular query hence 'format()'. Not necessary but maybe useful later. %L is string literal
       //need to push through ALL parameters, even if not changed. populate form with default values.
       //stops and returns the error to the requestee via response.send(). good for testing. was 'throw' error before which crashes node
 
       pool.query(
-        'UPDATE users SET first_name = $1, last_name = $2, email = $3, date_of_birth = $4, pswd = $5 WHERE user_id = $6',
-        [first_name, last_name, email, date_of_birth, pswd, user_id],
+        sql,
+        
         (error, results) => {
           if (error) {
+            console.log(error)
             return response.status(400).send(error)
           }
           response.status(200).send(`User modified with ID: ${user_id}`)
