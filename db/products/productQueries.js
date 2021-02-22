@@ -1,7 +1,7 @@
 const pool = require('../index')
 
 const getProducts = (request, response) => {
-  pool.query('SELECT * FROM products LIMIT 100', (error, results) => {
+  pool.query('SELECT * FROM products LIMIT 25', (error, results) => {
     if (error) {
       return response.status(400).send(error)
     }
